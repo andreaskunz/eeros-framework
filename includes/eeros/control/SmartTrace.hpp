@@ -8,42 +8,24 @@
 namespace eeros {
   namespace control {
     
-    template < typename T = double>
+    template < typename T = double >
     class SmartTrace : public Block1i<T> {
     public:
       SmartTrace(int maxSize = 100);
            
       void run();
-      
       std::vector<T> getTrace();
+      std::vector<timestamp_t> getTimestampTrace();
       
-      
-      
-  /*    
-      virtual timestamp_t* getTimestampTrace() {
-	if (cycle) {
-	  size = maxBufLen;
-	  timestamp_t* tmp = new timestamp_t[maxBufLen];
-	  for (int i = 0; i < maxBufLen; i++)
-	    tmp[i] = timeBuf[(i + index) % maxBufLen];
-	  return tmp;
-	} else {
-	  size = index;
-	  timestamp_t* tmp = new timestamp_t[index];
-	  for (int i = 0; i < index; i++)
-	    tmp[i] = timeBuf[i];
-	  return tmp;
-	}
-      }
-      */
       int getLength();
-      
       void enable();
-      
       void disable();
       
       
     protected:
+      template < typename U >
+      std::vector<U> prepareTrace(std::vector<U> & trace);
+      
       int maxBufferSize;
       int index{0};
       bool cycle{false}; // indicates whether wrap around occured
@@ -53,13 +35,14 @@ namespace eeros {
     };
     
     
-    
+    //TODO
     /********** Print functions *********
     template <typename T>
     std::ostream& operator<<(std::ostream& os, Trace<T>& trace) {
       os << "Block trace: '" << trace.getName() << "'"; 
     }
     */
+    
   };
 };
 #endif /* ORG_EEROS_CONTROL_SMARTTRACE_HPP_ */

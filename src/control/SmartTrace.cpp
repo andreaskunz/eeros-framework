@@ -34,19 +34,32 @@ namespace eeros {
       
       
       template < typename T >
-      std::vector<T> SmartTrace<T>::getTrace() {
-	std::vector<T> trace{};
+      template < typename U >
+      std::vector<U> SmartTrace<T>::prepareTrace(std::vector<U> & trace) {
+	std::vector<U> resultTrace{};
 	
 	if (cycle) {
-	  trace.resize(maxBufferSize); //reserve space for copy w/o back_inserter
-	  std::copy(traceBuffer.begin()+index, traceBuffer.end(), trace.begin()); // begin copy at front
-	  std::copy(traceBuffer.begin(), traceBuffer.begin()+index, trace.end()-index); // begin copy in the middle.
+	  resultTrace.resize(maxBufferSize); //reserve space for copy w/o back_inserter
+	  std::copy(trace.begin()+index, trace.end(), resultTrace.begin()); // begin copy at front
+	  std::copy(trace.begin(), trace.begin()+index, resultTrace.end()-index); // begin copy in the middle.
 	  
 	} else {
-	  std::copy(traceBuffer.begin(), traceBuffer.end(), std::back_inserter(trace)); // copy 1to1.
+	  std::copy(trace.begin(), trace.end(), std::back_inserter(resultTrace)); // copy 1to1.
 	}
 	
-	return trace;
+	return resultTrace;
+      }
+      
+      
+      template < typename T >
+      std::vector<T> SmartTrace<T>::getTrace() {
+	return prepareTrace(traceBuffer);
+      }
+      
+
+      template < typename T >
+      std::vector<timestamp_t> SmartTrace<T>::getTimestampTrace() {
+	return prepareTrace(timestampBuffer);
       }
       
       
