@@ -16,6 +16,9 @@ set(EEROS_VERSION_TWEAK 0)
 set(EEROS_VERSION ${EEROS_VERSION_MAJOR}.${EEROS_VERSION_MINOR}.${EEROS_VERSION_PATCH}.${EEROS_VERSION_TWEAK})
 
 
+set(CMAKE_CXX_STANDARD 14)
+
+
 ## Additional include and link directories
 include_directories(${ADDITIONAL_INCLUDE_DIRS})
 link_directories(${ADDITIONAL_LINK_DIRS})
